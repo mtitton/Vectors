@@ -9,7 +9,7 @@ import Foundation
 import GameKit
 import UIKit
 
-/// App Store Connect IDs for Vectors 1.0 (build 2).
+/// App Store Connect IDs for Vectors 1.0 (build 3).
 /// IMPORTANT: They must match the identifiers created in the Apple portal.
 /// If any ID differs, update its value before archiving this build.
 enum VectorsGameCenterIDs {

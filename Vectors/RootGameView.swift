@@ -594,43 +594,85 @@ private struct SettingsScreen: View {
     @ObservedObject var game: GameSession
 
     var body: some View {
-        VStack(spacing: 22) {
+        VStack(spacing: 16) {
             ScreenHeader(title: game.text("SETTINGS"), back: game.home)
-            Spacer(minLength: 0)
-            NeonPanel {
-                VStack(spacing: 21) {
-                    Toggle(isOn: $game.soundOn) {
-                        Label(game.text("GAME SOUNDS"), systemImage: "speaker.wave.2")
-                    }
-                    Divider().overlay(VectorTheme.blue.opacity(0.2))
-                    Toggle(isOn: $game.hapticsOn) {
-                        Label(game.text("HAPTIC FEEDBACK"), systemImage: "hand.tap")
-                    }
-                    Divider().overlay(VectorTheme.blue.opacity(0.2))
-                    Toggle(isOn: $game.effectsOn) {
-                        Label(game.text("VISUAL EFFECTS"), systemImage: "sparkles")
-                    }
-                    Divider().overlay(VectorTheme.blue.opacity(0.2))
-                    VStack(alignment: .leading, spacing: 12) {
-                        Label(game.text("LANGUAGE"), systemImage: "globe")
-                        Picker(game.text("LANGUAGE"), selection: $game.languagePreference) {
-                            ForEach(GameLanguagePreference.allCases) { option in
-                                Text(option.displayName).tag(option)
+            ScrollView {
+                VStack(spacing: 16) {
+                    NeonPanel {
+                        VStack(spacing: 21) {
+                            Toggle(isOn: $game.soundOn) {
+                                Label(game.text("GAME SOUNDS"), systemImage: "speaker.wave.2")
+                            }
+                            Divider().overlay(VectorTheme.blue.opacity(0.2))
+                            Toggle(isOn: $game.hapticsOn) {
+                                Label(game.text("HAPTIC FEEDBACK"), systemImage: "hand.tap")
+                            }
+                            Divider().overlay(VectorTheme.blue.opacity(0.2))
+                            Toggle(isOn: $game.effectsOn) {
+                                Label(game.text("VISUAL EFFECTS"), systemImage: "sparkles")
+                            }
+                            Divider().overlay(VectorTheme.blue.opacity(0.2))
+                            VStack(alignment: .leading, spacing: 12) {
+                                Label(game.text("LANGUAGE"), systemImage: "globe")
+                                Picker(game.text("LANGUAGE"), selection: $game.languagePreference) {
+                                    ForEach(GameLanguagePreference.allCases) { option in
+                                        Text(option.displayName).tag(option)
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .environment(\.locale, Locale(identifier: game.languageCode))
                             }
                         }
-                        .pickerStyle(.menu)
-                        .labelsHidden()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .environment(\.locale, Locale(identifier: game.languageCode))
+                        .tint(VectorTheme.cyan)
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
                     }
+
+                    NeonPanel {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text(game.text("HELP & PRIVACY"))
+                                .font(.system(size: 12, weight: .bold, design: .monospaced))
+                                .tracking(1.3)
+                                .foregroundStyle(VectorTheme.muted)
+
+                            if let privacyURL = URL(string: "https://mtitton.github.io/Vectors/privacy.html?lang=\(game.languageCode)") {
+                                Link(destination: privacyURL) {
+                                    HStack {
+                                        Label(game.text("PRIVACY POLICY"), systemImage: "hand.raised")
+                                        Spacer()
+                                        Image(systemName: "arrow.up.right")
+                                    }
+                                    .contentShape(Rectangle())
+                                }
+                            }
+                            Divider().overlay(VectorTheme.blue.opacity(0.2))
+                            if let supportURL = URL(string: "https://mtitton.github.io/Vectors/support.html?lang=\(game.languageCode)") {
+                                Link(destination: supportURL) {
+                                    HStack {
+                                        Label(game.text("SUPPORT"), systemImage: "envelope")
+                                        Spacer()
+                                        Image(systemName: "arrow.up.right")
+                                    }
+                                    .contentShape(Rectangle())
+                                }
+                            }
+                            Text("mvtitton@gmail.com")
+                                .font(.system(size: 12, design: .monospaced))
+                                .foregroundStyle(VectorTheme.muted)
+                                .textSelection(.enabled)
+                        }
+                        .tint(VectorTheme.cyan)
+                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    }
+
+                    Text("Vectors 1.0  •  iPhone")
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundStyle(VectorTheme.muted)
                 }
-                .tint(VectorTheme.cyan)
-                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                .frame(maxWidth: .infinity)
             }
-            Text("Vectors 1.0  •  iPhone")
-                .font(.system(size: 12, design: .monospaced))
-                .foregroundStyle(VectorTheme.muted)
-            Spacer(minLength: 0)
+            .scrollIndicators(.hidden)
             NeonButton(title: game.text("BACK HOME"), symbol: "house") { game.home() }
         }
         .padding(20)
