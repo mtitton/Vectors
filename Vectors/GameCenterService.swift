@@ -9,21 +9,21 @@ import Foundation
 import GameKit
 import UIKit
 
-/// Use the exact identifiers created in App Store Connect. Keeping an ID empty
-/// deliberately disables that item; a local build must never pretend to have
-/// an active online leaderboard or achievement.
+/// App Store Connect IDs for Vectors 1.0 (build 2).
+/// IMPORTANT: They must match the identifiers created in the Apple portal.
+/// If any ID differs, update its value before archiving this build.
 enum VectorsGameCenterIDs {
     // Classic, highest score first, integer points.
-    static let endlessLeaderboard = ""
+    static let endlessLeaderboard = "com.marcustitton.vectors.endless"
     // Recurring, start 00:00 UTC, duration/restart interval of 24 hours.
-    static let dailyLeaderboard = ""
+    static let dailyLeaderboard = "com.marcustitton.vectors.daily"
 
-    static let firstMatch = ""
-    static let hundredRedirects = ""
-    static let fiveCombo = ""
-    static let tenCombo = ""
-    static let fiveThousandPoints = ""
-    static let hundredGames = ""
+    static let firstMatch = "com.marcustitton.vectors.first_match"
+    static let hundredRedirects = "com.marcustitton.vectors.hundred_redirects"
+    static let fiveCombo = "com.marcustitton.vectors.combo_five"
+    static let tenCombo = "com.marcustitton.vectors.combo_ten"
+    static let fiveThousandPoints = "com.marcustitton.vectors.five_thousand"
+    static let hundredGames = "com.marcustitton.vectors.hundred_games"
 
     static var hasEndless: Bool { !endlessLeaderboard.isEmpty }
     static var hasDaily: Bool { !dailyLeaderboard.isEmpty }

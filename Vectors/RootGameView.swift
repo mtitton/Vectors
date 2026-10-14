@@ -10,6 +10,7 @@ import SpriteKit
 
 struct RootGameView: View {
     @StateObject private var game = GameSession()
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack {
@@ -31,6 +32,12 @@ struct RootGameView: View {
         .tint(VectorTheme.cyan)
         .environment(\.locale, Locale(identifier: game.languageCode))
         .onAppear { game.authenticateGameCenter() }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                // Retry pending Game Center uploads after returning online.
+                game.authenticateGameCenter()
+            }
+        }
     }
 }
 
